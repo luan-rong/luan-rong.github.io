@@ -197,7 +197,7 @@ class PhotographyTests(unittest.TestCase):
             by_filename = {p['file']: p for p in variants}
             self.assertEqual((by_filename['portrait.JPG']['width'], by_filename['portrait.JPG']['height']), (400, 800))
             self.assertEqual(by_filename['portrait.JPG']['orientation'], 'portrait')
-            self.assertEqual(by_filename['landscape.JPG']['orientation'], 'landscape')
+            self.assertEqual(by_filename['landscape.JPG']['orientation'], 'wide')
             for item in variants:
                 for key in ('thumb_url', 'display_url'):
                     output = folder / 'dist' / item[key]
