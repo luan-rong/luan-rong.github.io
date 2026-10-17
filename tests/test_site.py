@@ -70,9 +70,9 @@ ER  -
         self.assertEqual(len(pubs), 1)
         self.assertEqual(pubs[0]['category'], 'Journal')
 
-    def test_demo_is_sorted_and_files_combined(self):
+    def test_publications_are_sorted_and_not_demo(self):
         pubs = load_publications(ROOT / 'data/publications')
-        self.assertEqual([p['category'] for p in pubs], ['Preprint','Conference','Journal'])
+        self.assertTrue(all('demo' not in p['id'].lower() for p in pubs))
         self.assertEqual([p['sort_key'] for p in pubs], sorted([p['sort_key'] for p in pubs], reverse=True))
 
     def test_url_safety_and_title_escaping(self):
@@ -92,7 +92,8 @@ class BuildTests(unittest.TestCase):
             self.assertIn('href="/some-repository/publications/"', main)
             self.assertIn('href="/some-repository/"', sub)
             self.assertIn('id="publication-list"', sub)
-            self.assertEqual(len(json.loads((path / 'publications.json').read_text())), 3)
+            self.assertEqual(len(json.loads((path / 'publications.json').read_text())),
+                             len(load_publications(ROOT / 'data/publications')))
             self.assertTrue((path / 'assets/window-watercolor.webp').exists())
             self.assertTrue((path / 'peer-review/index.html').exists())
             self.assertTrue((path / 'photography/index.html').exists())
