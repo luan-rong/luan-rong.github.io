@@ -1,0 +1,31 @@
+{
+  "name": "Your Name",
+  "name_short": "Your Name",
+  "role": "Ph.D. Student · Researcher",
+  "department": "Department of Computer Science",
+  "affiliation": "Your University",
+  "location": "Somewhere in the world",
+  "email": "your.name@example.edu",
+  "avatar": "assets/avatar-placeholder.svg",
+  "cv": "",
+  "site_url": "",
+  "site_description": "A little academic corner for research, ideas, and life beyond the papers.",
+  "hero_eyebrow": "A LITTLE CORNER OF THE INTERNET",
+  "hero_quote": "A quiet place for curious minds and little wonders.",
+  "bio": [
+    { "text": "Hello! I am a Ph.D. student at " },
+    { "text": "Your University", "url": "https://example.edu" },
+    { "text": ", fortunate to be advised by " },
+    { "text": "Prof. Advisor Name", "url": "https://example.edu/advisor" },
+    { "text": ". My research interests include human-centered AI, learning systems, and the little questions that make the world more interesting. I also share notes on " },
+    { "text": "Zhihu", "url": "https://www.zhihu.com/" },
+    { "text": ". Welcome to my little corner of the internet!" }
+  ],
+  "research_tags": ["Human-centered AI", "Machine Learning", "Curiosity"],
+  "social_links": [
+    { "label": "Email", "url": "mailto:your.name@example.edu", "icon": "mail" },
+    { "label": "Google Scholar", "url": "https://scholar.google.com/", "icon": "scholar" },
+    { "label": "GitHub", "url": "https://github.com/", "icon": "github" },
+    { "label": "Zhihu", "url": "https://www.zhihu.com/", "icon": "zhihu" }
+  ]
+}

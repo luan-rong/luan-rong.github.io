@@ -1,0 +1,10 @@
+{
+  "intro": "A record of academic service. The entries below are placeholders—replace them with venues you have actually reviewed for.",
+  "conferences": [
+    {"name": "Conference Name (replace me)", "years": "2025, 2026", "area": "Machine Learning", "url": ""},
+    {"name": "Another Conference (replace me)", "years": "2024", "area": "AI & Society", "url": ""}
+  ],
+  "journals": [
+    {"name": "Journal Name (replace me)", "years": "2025", "area": "Artificial Intelligence", "url": ""}
+  ]
+}

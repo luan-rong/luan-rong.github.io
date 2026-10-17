@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="Replace this illustrated avatar with your photo">
+  <defs>
+    <linearGradient id="sky" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#edf3f2"/><stop offset="1" stop-color="#d8e6e8"/></linearGradient>
+    <linearGradient id="shirt" x1="0" x2="1"><stop stop-color="#8daab4"/><stop offset="1" stop-color="#6e94a5"/></linearGradient>
+  </defs>
+  <circle cx="120" cy="120" r="120" fill="url(#sky)"/>
+  <circle cx="182" cy="63" r="28" fill="#fdf9e8" opacity=".88"/>
+  <path d="M0 194 Q45 152 84 184 T168 169 T240 180 V240 H0Z" fill="#c5d7ca"/>
+  <path d="M32 238 C40 184 75 166 120 167 C165 166 202 183 210 238" fill="url(#shirt)"/>
+  <path d="M74 101 C72 55 94 42 120 42 C149 42 166 65 165 102 L157 155 L85 155Z" fill="#4d5759"/>
+  <ellipse cx="120" cy="114" rx="40" ry="48" fill="#edcbb1"/>
+  <path d="M79 99 C81 58 105 50 124 52 C149 50 165 76 159 100 C139 98 118 90 105 78 C96 91 91 96 79 99Z" fill="#4d5759"/>
+  <path d="M103 119 Q109 116 114 119 M127 119 Q133 116 138 119" fill="none" stroke="#725d52" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M113 141 Q121 147 129 141" fill="none" stroke="#b3786e" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M106 155 L106 173 Q120 187 134 173 L134 155" fill="#edcbb1"/>
+  <path d="M105 172 L120 190 L135 172" fill="#faf8ee"/>
+  <g opacity=".65" fill="#9db3a0"><circle cx="32" cy="57" r="5"/><circle cx="47" cy="44" r="3"/><circle cx="44" cy="67" r="2.5"/></g>
+</svg>
