@@ -1,8 +1,8 @@
 {
-  "name": "Luan Rong",
-  "name_short": "Luan Rong",
+  "name": "Rong Luan",
+  "name_short": "Rong Luan",
   "role": "Mathematics PhD Student",
-  "department": "School of Physical and Mathematical Sciences",
+  "department": "SPMS",
   "affiliation": "Nanyang Technological University",
   "location": "Singapore",
   "email": "luan0020@e.ntu.edu.sg",
@@ -17,7 +17,7 @@
     { "text": "School of Physical and Mathematical Sciences, NTU" },
     { "text": ", fortunate to be advised by " },
     { "text": "Xiaohui Bei", "url": "https://personal.ntu.edu.sg/xhbei/" },
-    { "text": ". My research interests lies in Algorithmic Game Theory, Fair Division, and Computational Social Choice. I also share notes on " },
+    { "text": ". My research interests lies in Algorithmic Game Theory, Fair Division, and Computational Social Choice. I also share my notes on " },
     { "text": "Zhihu", "url": "https://www.zhihu.com/people/lr465109493" },
     { "text": "." }
   ],
