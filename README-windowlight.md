@@ -52,36 +52,33 @@ python -m http.server 8000 --directory dist
 
 ## 3. Photography：只放自己的摄影作品
 
-主页导航中的 **Interests** 已改成 **Photography**，页面地址为 `/photography/`。这是一个专门的摄影集，没有阅读、旅行感想或分享链接模块。
+摄影集地址为 `/photography/`。页面只展示照片，不再按 Travel / Nature / City / Everyday 等类别分组，也没有分类筛选按钮、示例照片或「COLLECTED MOMENTS」栏目。
 
-摄影集支持响应式瀑布流、按相册筛选、点击放大查看原图、键盘 `←` / `→` 切换、`Esc` 关闭。普通图片链接在 JavaScript 关闭时仍可打开。背景保留水彩窗边的柔光，而照片本身保持原样，不添加滤镜。
+**浏览者每次刷新页面时，浏览器都会随机打乱全部照片的顺序**（Fisher–Yates shuffle，使用 `Math.random()`）；这一逻辑在网页端运行，而不是在构建时固定排列。关闭 JavaScript 时仍可以浏览照片，只是没有随机排列与放大弹窗。点按照片可以查看原图，方向键 `←` / `→` 切换，`Esc` 退出。
 
-### 最方便的更新方法：直接放照片
+### 添加或删除照片
 
-1. **发布前先删除** `public/photos/` 中的 `demo-*.webp`：这些是 AI 生成的示例素材，**不是你的摄影作品**，不会自动被当作你的真实照片。
-2. 将自己拍摄的 `.jpg`、`.jpeg`、`.png`、`.webp` 或 `.avif` 放入 `public/photos/`（允许子文件夹）。
-3. 推荐使用 `2026-08-15-blue-hour.jpg` 这种 `YYYY-MM-DD-标题.jpg` 文件名；网站会自动识别日期、生成标题并按日期倒序排列。不带日期的文件也能展示，排在有日期的照片之后。
-4. 本地执行 `python scripts/build.py`，GitHub 上则只需提交文件，Actions 会自动更新。
+1. 把你自己的 `.jpg`、`.jpeg`、`.png`、`.webp`、`.avif` 文件放到 `public/photos/` 中（支持子文件夹）。
+2. 不需要修改 HTML / JavaScript，也不需要给照片分类。照片可使用任意文件名，包括 `IMG_1026.JPG`。
+3. 想移除照片，直接删除对应文件即可。
+4. 在 GitHub 提交到 `main` 分支后，Actions 会自动构建网站。
 
-**想写更精致的标题、地点或进行分类时**，编辑 `data/photography.json` 的 `photos` 数组，给对应文件附加信息。例如：
+`data/photography.json` 中控制上方标题与介绍文字；其中 `photos: []` 表示没有额外元数据，**不会隐藏文件夹中的任何照片**。如需为图片的放大预览添加自定义标题、拍摄地点或说明，可给 `photos` 添加：
 
 ```json
 {
-  "file": "2026-08-15-blue-hour.jpg",
-  "title": "雨后的蓝调时刻",
-  "date": "2026-08-15",
-  "location": "Shanghai",
-  "album": "City",
-  "alt": "雨后上海街边温柔的蓝色暮光",
+  "file": "IMG_1026.JPG",
+  "title": "Summer afternoon",
+  "location": "Singapore",
+  "alt": "Sunlight on a quiet street",
+  "date": "2026-10-01",
   "orientation": "portrait"
 }
 ```
 
-`file` 必须对应 `public/photos/` 下的相对路径，文件不存在时不会出现在网页中。`album` 相同的作品会形成同一个筛选类别（例如 `Nature`, `City`, `Travel`）；未填默认为 `Moments`。`orientation` 可以是 `landscape`（默认）、`portrait`、`square` 或 `wide`，仅控制相册卡片裁切比例，点击后会显示完整图片。`alt` 是供屏幕阅读器使用的图片描述。
+以上条目是可选元数据，填写时请放在 `photos` 数组内部；不会改变随机顺序或生成分类筛选。缩略图只显示照片，放大时可显示文字信息。默认缩略图比例为横向；可在此设置 `portrait`、`square`、`wide` 或 `landscape` 调整裁切比例，放大预览可查看完整原图。
 
-`photography.json` 中列出的条目并非必须：**只放图片，不写 JSON，也能自动上墙**。删除示例照片后，旧示例文字条目将被忽略；如果你喜欢干净的数据文件，也可以顺手清空 `photos` 数组。
-
-**图片建议**：为了 GitHub Pages 打开更快，推荐照片上传前压缩成 WebP 或 JPEG、长边约 1600–2200 像素，避免一次上传几十兆字节的相机原片。相册中的照片是公开资源，上传前记得清除不想公开的 GPS/EXIF 信息。
+**性能提示**：建议上传前把单张照片压缩到约 1600–2200px 长边，优先用 WebP 或优化的 JPEG，避免原始相机文件让页面加载缓慢。图片在公开仓库中可被任何人下载，请注意 GPS/EXIF 信息。
 
 ---
 

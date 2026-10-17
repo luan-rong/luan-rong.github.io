@@ -245,48 +245,20 @@ def review_page(reviews: dict) -> str:
 
 
 def photography_page(settings: dict, photos: list[dict], base: str) -> str:
-    """An image-first personal portfolio with optional client-side filtering and lightbox."""
-    albums = sorted({photo['album'] for photo in photos}, key=str.casefold)
-    filters = [('All photos', 'all', len(photos))] + [
-        (album, album, sum(1 for photo in photos if photo['album'] == album))
-        for album in albums
-    ]
-    controls = ''.join(
-        f'<button type="button" class="photo-filter {"is-selected" if key == "all" else ""}" '
-        f'data-photo-filter="{h(key)}" aria-pressed="{str(key == "all").lower()}">'
-        f'{h(label)} <span>{count}</span></button>'
-        for label, key, count in filters
-    )
+    """An image-first gallery: no album filters, randomized in the visitor's browser."""
     cards = []
-    for index, photo in enumerate(photos):
+    for photo in photos:
         src = base + photo['url']
-        date_tag = (
-            f'<time datetime="{h(photo["date"])}">{h(photo["date_label"])}</time>'
-            if photo['date'] else ''
-        )
-        location_tag = (
-            f'<span class="photo-location">{h(photo["location"])}</span>'
-            if photo['location'] else ''
-        )
-        demo_tag = '<span class="photo-demo-badge">SAMPLE</span>' if photo['demo'] else ''
-        cards.append(f'''<article class="photo-card photo-card--{h(photo['orientation'])}" data-photo-album="{h(photo['album'])}">
-          <a class="photo-card__link" href="{h(src)}" data-photo-index="{index}"
+        cards.append(f'''<article class="photo-card photo-card--{h(photo['orientation'])}">
+          <a class="photo-card__link" href="{h(src)}"
              data-photo-title="{h(photo['title'])}" data-photo-alt="{h(photo['alt'])}"
              data-photo-date="{h(photo['date_label'])}" data-photo-location="{h(photo['location'])}">
             <span class="photo-frame">
-              <img src="{h(src)}" alt="{h(photo['alt'])}" loading="{'eager' if index == 0 else 'lazy'}" decoding="async" />
-              {demo_tag}<span class="photo-zoom" aria-hidden="true">↗</span>
+              <img src="{h(src)}" alt="{h(photo['alt'])}" loading="lazy" decoding="async" />
+              <span class="photo-zoom" aria-hidden="true">↗</span>
             </span>
-            <span class="photo-caption"><span class="photo-caption__primary"><strong>{h(photo['title'])}</strong>{location_tag}</span>{date_tag}</span>
           </a>
         </article>''')
-    example_count = sum(p['demo'] for p in photos)
-    example_notice = (
-        f'<p class="photo-sample-notice"><span aria-hidden="true">✳</span> '
-        f"{example_count} AI-generated sample images are placeholders, not the site owner's photographs. "
-        'Replace <code>public/photos/demo-*.webp</code> with your own work before publishing.</p>'
-        if example_count else ''
-    )
     gallery_or_empty = (
         '<div class="photo-gallery" id="photo-gallery">' + ''.join(cards) + '</div>'
         if photos else '<div class="photo-empty"><span aria-hidden="true">☁</span><h3>The gallery is waiting for its first photograph.</h3>'
@@ -295,26 +267,23 @@ def photography_page(settings: dict, photos: list[dict], base: str) -> str:
     return f'''<section class="photo-hero" aria-labelledby="photo-page-title">
       <div class="container photo-hero__inner">
         <div class="photo-hero__copy">
-          <p class="section-kicker">{h(settings.get('eyebrow', 'A LITTLE VISUAL DIARY'))}</p>
+          <p class="section-kicker">{h(settings.get('eyebrow', 'say cheese, kaccha!'))}</p>
           <h1 id="photo-page-title">{h(settings.get('title', 'Photography'))}<span aria-hidden="true"> ✳</span></h1>
-          <p>{h(settings.get('intro', 'A small collection of photographs.'))}</p>
+          <p>{h(settings.get('intro', 'just some random snapshots as I travel around.'))}</p>
           <span class="photo-hero__signature" aria-hidden="true">light & little moments&nbsp; ↗</span>
         </div>
       </div>
     </section>
     <section class="container photography-content" aria-labelledby="photo-gallery-heading">
-      <div class="photography-heading"><div><p class="section-kicker">COLLECTED MOMENTS</p>
+      <div class="photography-heading"><div>
         <h2 id="photo-gallery-heading">{h(settings.get('gallery_title', 'Through my lens'))}</h2>
-        <p>{h(settings.get('gallery_note', 'Life, as I see it.'))}</p></div>
+        <p>{h(settings.get('gallery_note', 'capturing the moments.'))}</p></div>
         <span class="photography-heading__mark" aria-hidden="true">☼ &nbsp; ☁ &nbsp; ✿</span>
       </div>
-      <div class="photo-toolbar" id="photo-toolbar">
-        <div class="photo-filters" role="group" aria-label="Photo albums">{controls}</div>
-        <p class="photo-counter" id="photo-counter" aria-live="polite">{len(photos)} photographs</p>
+      <div class="photo-toolbar">
+        <p class="photo-counter" aria-live="polite">{len(photos)} photograph{'s' if len(photos) != 1 else ''}</p>
       </div>
-      {example_notice}
       {gallery_or_empty}
-      <p id="photo-no-results" class="empty-state" hidden>No photos in this album yet.</p>
       <div class="photo-endnote"><span aria-hidden="true">✿</span><p>{h(settings.get('ending_quote', 'The little things are worth remembering.'))}</p></div>
     </section>
     <dialog class="photo-lightbox" id="photo-lightbox" aria-label="Photograph viewer">

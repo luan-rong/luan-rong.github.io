@@ -1,18 +1,9 @@
 {
   "title": "Photography",
-  "eyebrow": "A LITTLE VISUAL DIARY",
-  "intro": "Collecting little moments of light, quiet streets, faraway skies, and everyday life. A small window into the world as I see it.",
+  "eyebrow": "say cheese, kaccha!",
+  "intro": "just some random snapshots as I travel around.",
   "gallery_title": "Through my lens",
-  "gallery_note": "Places, details, and light worth remembering.",
+  "gallery_note": "capturing the moments.",
   "ending_quote": "Some moments are worth keeping, even when words fall short.",
-  "photos": [
-    {"file": "demo-01-aegean-evening.webp", "title": "Aegean evening", "date": "2025-08-12", "album": "Travel", "location": "By the sea", "alt": "Warm sunset over a Mediterranean coast", "orientation": "landscape"},
-    {"file": "demo-02-spring-mountain.webp", "title": "Spring breeze", "date": "2025-04-06", "album": "Nature", "location": "Mountain spring", "alt": "A snowy mountain rising behind pale spring blossoms", "orientation": "portrait"},
-    {"file": "demo-03-evening-street.webp", "title": "Afterglow", "date": "2024-11-16", "album": "City", "location": "An old street", "alt": "A quiet town street at dusk with warm lights", "orientation": "landscape"},
-    {"file": "demo-04-shimmering-lake.webp", "title": "Shimmering", "date": "2024-10-03", "album": "Nature", "location": "By the lake", "alt": "Sunlight shimmering across a blue lake beneath mountains", "orientation": "portrait"},
-    {"file": "demo-05-little-cat.webp", "title": "Little companion", "date": "2024-06-11", "album": "Everyday", "location": "Home", "alt": "A sleepy cat resting in warm window light", "orientation": "portrait"},
-    {"file": "demo-06-white-flowers.webp", "title": "Flowers in the window", "date": "2024-04-22", "album": "Everyday", "location": "Home", "alt": "White flowers softly lit near a bright window", "orientation": "landscape"},
-    {"file": "demo-07-twilight-city.webp", "title": "Blue hour", "date": "2023-12-03", "album": "City", "location": "At dusk", "alt": "City rooftops and a dome under a pink evening sky", "orientation": "portrait"},
-    {"file": "demo-08-sunlit-window.webp", "title": "Afternoon hush", "date": "2023-07-14", "album": "Everyday", "location": "Home", "alt": "Soft sunlight falling through a window onto leaves", "orientation": "landscape"}
-  ]
+  "photos": []
 }

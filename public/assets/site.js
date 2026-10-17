@@ -35,48 +35,27 @@
     update();
   }
 
-  // Photography gallery: filter by album and open original files in a native dialog.
-  // Without JavaScript, each image is still a normal link to its full file.
+  // Photography: shuffle the complete gallery whenever a visitor loads the page.
+  // Do this client-side (not at build time), so refreshes produce new photo orders.
+  // Without JavaScript, photos remain ordinary links to their original files.
   const gallery = document.querySelector('#photo-gallery');
   if (!gallery) return;
   const cards = [...gallery.querySelectorAll('.photo-card')];
-  const filters = [...document.querySelectorAll('[data-photo-filter]')];
-  const counter = document.querySelector('#photo-counter');
-  const empty = document.querySelector('#photo-no-results');
+  for (let i = cards.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [cards[i], cards[j]] = [cards[j], cards[i]];
+  }
+  gallery.append(...cards);
+
   const dialog = document.querySelector('#photo-lightbox');
   const image = document.querySelector('#lightbox-image');
   const title = document.querySelector('#lightbox-title');
   const details = document.querySelector('#lightbox-details');
   const position = document.querySelector('#lightbox-position');
   const closeButton = dialog?.querySelector('.lightbox-close');
-  let album = 'all';
   let current = null;
   let lastFocused = null;
-
-  const visibleLinks = () => cards
-    .filter(card => !card.hidden)
-    .map(card => card.querySelector('.photo-card__link'));
-
-  const updateGallery = () => {
-    let visible = 0;
-    cards.forEach(card => {
-      card.hidden = album !== 'all' && card.dataset.photoAlbum !== album;
-      if (!card.hidden) visible++;
-    });
-    counter.textContent = `${visible} photograph${visible === 1 ? '' : 's'}`;
-    empty.hidden = visible !== 0;
-    filters.forEach(filter => {
-      const selected = filter.dataset.photoFilter === album;
-      filter.classList.toggle('is-selected', selected);
-      filter.setAttribute('aria-pressed', String(selected));
-    });
-  };
-
-  filters.forEach(filter => filter.addEventListener('click', () => {
-    album = filter.dataset.photoFilter;
-    updateGallery();
-  }));
-  updateGallery();
+  const visibleLinks = () => cards.map(card => card.querySelector('.photo-card__link'));
 
   if (!dialog || typeof dialog.showModal !== 'function') return;
 
