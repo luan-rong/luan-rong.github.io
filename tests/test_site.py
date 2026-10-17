@@ -96,6 +96,15 @@ class BuildTests(unittest.TestCase):
                              len(load_publications(ROOT / 'data/publications')))
             self.assertTrue((path / 'assets/window-watercolor.webp').exists())
             self.assertTrue((path / 'peer-review/index.html').exists())
+            review_data = json.loads((ROOT / 'data/reviews.json').read_text(encoding='utf-8'))
+            review_html = (path / 'peer-review/index.html').read_text(encoding='utf-8')
+            for item in review_data.get('conferences', []) + review_data.get('journals', []):
+                self.assertIn(item['name'], review_html)
+            if not review_data.get('journals'):
+                self.assertNotIn('id="J-title"', review_html)
+            if not review_data.get('conferences'):
+                self.assertNotIn('id="C-title"', review_html)
+            self.assertNotIn('Add entries to data/reviews.json to begin.', review_html)
             self.assertTrue((path / 'photography/index.html').exists())
             gallery_html = (path / 'photography/index.html').read_text(encoding='utf-8')
             self.assertIn('id="photo-gallery"', gallery_html)

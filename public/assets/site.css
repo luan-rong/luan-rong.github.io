@@ -155,6 +155,7 @@ h1, h2, h3, p { margin-top: 0; }
 
 /* Peer review */
 .service-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: start; }
+.service-layout--single { grid-template-columns: minmax(0, 1fr); max-width: 780px; margin-inline: auto; }
 .service-panel { border: 1px solid #e8e7db; background: #fffefa; border-radius: 17px; padding: 31px; box-shadow: var(--shadow); }
 .service-panel__header { display: flex; align-items: center; gap: 16px; padding-bottom: 24px; border-bottom: 1px solid #edf0e7; }
 .service-emblem { display: grid; width: 52px; height: 52px; flex: 0 0 auto; place-items: center; border-radius: 15px; background: #e9f1ee; font: 29px var(--serif); color: #6f958f; }

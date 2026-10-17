@@ -234,7 +234,14 @@ def service_group(label: str, items: list[dict], marker: str) -> str:
 
 def review_page(reviews: dict) -> str:
     banner = subpage_banner("ACADEMIC SERVICE", "Peer review", reviews.get("intro", ""), "✿")
-    return banner + '<div class="container content-section"><div class="service-layout">' + service_group("Conferences", reviews.get("conferences", []), "C") + service_group("Journals", reviews.get("journals", []), "J") + '</div><p class="service-note">I believe thoughtful reviewing is part of building a generous research community.</p></div>'
+    panels = []
+    if reviews.get("conferences"):
+        panels.append(service_group("Conferences", reviews["conferences"], "C"))
+    if reviews.get("journals"):
+        panels.append(service_group("Journals", reviews["journals"], "J"))
+    layout_class = "service-layout service-layout--single" if len(panels) <= 1 else "service-layout"
+    content = "".join(panels) if panels else '<p class="empty-state">No peer-review entries to display yet.</p>'
+    return banner + f'<div class="container content-section"><div class="{layout_class}">{content}</div><p class="service-note">I believe thoughtful reviewing is part of building a generous research community.</p></div>'
 
 
 def photography_page(settings: dict, photos: list[dict], base: str) -> str:
