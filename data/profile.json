@@ -1,31 +1,30 @@
 {
-  "name": "Your Name",
-  "name_short": "Your Name",
-  "role": "Ph.D. Student · Researcher",
-  "department": "Department of Computer Science",
-  "affiliation": "Your University",
-  "location": "Somewhere in the world",
-  "email": "your.name@example.edu",
+  "name": "Luan Rong",
+  "name_short": "Luan Rong",
+  "role": "Mathematics PhD Student",
+  "department": "School of Physical and Mathematical Sciences",
+  "affiliation": "Nanyang Technological University",
+  "location": "Singapore",
+  "email": "luan0020@e.ntu.edu.sg",
   "avatar": "assets/avatar-placeholder.svg",
   "cv": "",
-  "site_url": "",
-  "site_description": "A little academic corner for research, ideas, and life beyond the papers.",
-  "hero_eyebrow": "A LITTLE CORNER OF THE INTERNET",
+  "site_url": "https://luan-rong.github.io",
+  "site_description": "Research, Ideas, and Life.",
+  "hero_eyebrow": "Personal Homepage",
   "hero_quote": "A quiet place for curious minds and little wonders.",
   "bio": [
-    { "text": "Hello! I am a Ph.D. student at " },
-    { "text": "Your University", "url": "https://example.edu" },
+    { "text": "Hello! I am a PhD student at " },
+    { "text": "School of Physical and Mathematical Sciences, NTU" },
     { "text": ", fortunate to be advised by " },
-    { "text": "Prof. Advisor Name", "url": "https://example.edu/advisor" },
-    { "text": ". My research interests include human-centered AI, learning systems, and the little questions that make the world more interesting. I also share notes on " },
-    { "text": "Zhihu", "url": "https://www.zhihu.com/" },
-    { "text": ". Welcome to my little corner of the internet!" }
+    { "text": "Xiaohui Bei", "url": "https://personal.ntu.edu.sg/xhbei/" },
+    { "text": ". My research interests lies in Algorithmic Game Theory, Fair Division, and Computational Social Choice. I also share notes on " },
+    { "text": "Zhihu", "url": "https://www.zhihu.com/people/lr465109493" },
+    { "text": "." }
   ],
-  "research_tags": ["Human-centered AI", "Machine Learning", "Curiosity"],
+  "research_tags": ["Algorithmic Game Theory", "Fair Division", "Computational Social Choice"],
   "social_links": [
-    { "label": "Email", "url": "mailto:your.name@example.edu", "icon": "mail" },
-    { "label": "Google Scholar", "url": "https://scholar.google.com/", "icon": "scholar" },
-    { "label": "GitHub", "url": "https://github.com/", "icon": "github" },
-    { "label": "Zhihu", "url": "https://www.zhihu.com/", "icon": "zhihu" }
+    { "label": "Email", "url": "mailto:luan0020@e.ntu.edu.sg", "icon": "mail" },
+    { "label": "Google Scholar", "url": "https://scholar.google.com/citations?user=0QsUFlsAAAAJ", "icon": "scholar" },
+    { "label": "Zhihu", "url": "https://www.zhihu.com/people/lr465109493", "icon": "zhihu" }
   ]
 }
