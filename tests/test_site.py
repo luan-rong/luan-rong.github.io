@@ -11,7 +11,8 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 from bibliography import clean_tex, load_publications, normalize_entry, parse_bibtex, parse_ris, safe_url
 from build import build
-from photography import collect_photos, parse_date, fallback_title
+from photography import collect_photos, parse_date, fallback_title, render_photo_variants
+from PIL import Image
 
 
 class BibtexTests(unittest.TestCase):
@@ -112,6 +113,17 @@ class BuildTests(unittest.TestCase):
             self.assertIn('href="/some-repository/photography/"', main)
             uploaded_photos = collect_photos(ROOT / 'public/photos', {'photos': []})
             self.assertEqual(gallery_html.count('class="photo-card photo-card--'), len(uploaded_photos))
+            self.assertIn('assets/photo-thumbs/', gallery_html)
+            self.assertIn('assets/photo-display/', gallery_html)
+            self.assertIn('data-photo-preview=', gallery_html)
+            self.assertIn('style="aspect-ratio:', gallery_html)
+            self.assertIn('id="lightbox-original"', gallery_html)
+            thumb_files = list((path / 'assets/photo-thumbs').glob('*.webp'))
+            display_files = list((path / 'assets/photo-display').glob('*.webp'))
+            self.assertEqual(len(thumb_files), len(uploaded_photos))
+            self.assertEqual(len(display_files), len(uploaded_photos))
+            with Image.open(thumb_files[0]) as thumbnail:
+                self.assertLessEqual(max(thumbnail.size), 900)
             self.assertNotIn('data-photo-filter=', gallery_html)
             self.assertNotIn('data-photo-album=', gallery_html)
             self.assertNotIn('COLLECTED MOMENTS', gallery_html)
@@ -170,6 +182,30 @@ class PhotographyTests(unittest.TestCase):
         self.assertEqual(photos[0]['album'], 'City')
         self.assertEqual(photos[0]['orientation'], 'portrait')
 
+
+
+    def test_webp_variants_keep_original_orientation_and_proportions(self):
+        with TemporaryDirectory() as temp:
+            folder = Path(temp)
+            originals = folder / 'originals'
+            originals.mkdir()
+            Image.new('RGB', (400, 800), (160, 180, 200)).save(originals / 'portrait.JPG')
+            Image.new('RGB', (800, 400), (160, 180, 200)).save(originals / 'landscape.JPG')
+            photos = collect_photos(originals, {'photos': []})
+            variants = render_photo_variants(originals, folder / 'dist/assets', photos)
+            self.assertEqual(len(variants), 2)
+            by_filename = {p['file']: p for p in variants}
+            self.assertEqual((by_filename['portrait.JPG']['width'], by_filename['portrait.JPG']['height']), (400, 800))
+            self.assertEqual(by_filename['portrait.JPG']['orientation'], 'portrait')
+            self.assertEqual(by_filename['landscape.JPG']['orientation'], 'landscape')
+            for item in variants:
+                for key in ('thumb_url', 'display_url'):
+                    output = folder / 'dist' / item[key]
+                    self.assertTrue(output.exists())
+                    with Image.open(output) as rendered:
+                        self.assertEqual(rendered.format, 'WEBP')
+                        self.assertAlmostEqual(rendered.width / rendered.height,
+                                               item['width'] / item['height'], places=2)
 
 
 if __name__ == '__main__':

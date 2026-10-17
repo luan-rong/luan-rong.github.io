@@ -52,6 +52,7 @@
   const title = document.querySelector('#lightbox-title');
   const details = document.querySelector('#lightbox-details');
   const position = document.querySelector('#lightbox-position');
+  const originalLink = document.querySelector('#lightbox-original');
   const closeButton = dialog?.querySelector('.lightbox-close');
   let current = null;
   let lastFocused = null;
@@ -62,7 +63,8 @@
   const updateLightbox = link => {
     const visible = visibleLinks();
     current = link;
-    image.src = link.href;
+    image.src = link.dataset.photoPreview || link.href;
+    if (originalLink) originalLink.href = link.href;
     image.alt = link.dataset.photoAlt || link.dataset.photoTitle || 'Photograph';
     title.textContent = link.dataset.photoTitle || '';
     details.textContent = [link.dataset.photoLocation, link.dataset.photoDate].filter(Boolean).join(' · ');

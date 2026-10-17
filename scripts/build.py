@@ -18,7 +18,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 from bibliography import load_publications, safe_url
-from photography import collect_photos
+from photography import collect_photos, render_photo_variants
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -248,13 +248,16 @@ def photography_page(settings: dict, photos: list[dict], base: str) -> str:
     """An image-first gallery: no album filters, randomized in the visitor's browser."""
     cards = []
     for photo in photos:
-        src = base + photo['url']
+        original = base + photo['url']
+        preview = base + photo['display_url']
+        thumbnail = base + photo['thumb_url']
         cards.append(f'''<article class="photo-card photo-card--{h(photo['orientation'])}">
-          <a class="photo-card__link" href="{h(src)}"
+          <a class="photo-card__link" href="{h(original)}" data-photo-preview="{h(preview)}"
              data-photo-title="{h(photo['title'])}" data-photo-alt="{h(photo['alt'])}"
              data-photo-date="{h(photo['date_label'])}" data-photo-location="{h(photo['location'])}">
-            <span class="photo-frame">
-              <img src="{h(src)}" alt="{h(photo['alt'])}" loading="lazy" decoding="async" />
+            <span class="photo-frame" style="aspect-ratio: {photo['width']} / {photo['height']}">
+              <img src="{h(thumbnail)}" width="{photo['width']}" height="{photo['height']}"
+                   alt="{h(photo['alt'])}" loading="lazy" decoding="async" />
               <span class="photo-zoom" aria-hidden="true">↗</span>
             </span>
           </a>
@@ -292,7 +295,7 @@ def photography_page(settings: dict, photos: list[dict], base: str) -> str:
         <button class="lightbox-arrow lightbox-prev" type="button" aria-label="Previous photograph">←</button>
         <figure class="lightbox-figure"><img id="lightbox-image" alt="" />
           <figcaption><span><strong id="lightbox-title"></strong><span id="lightbox-details"></span></span>
-          <span id="lightbox-position"></span></figcaption>
+          <span id="lightbox-position"></span><a id="lightbox-original" href="#" target="_blank" rel="noopener noreferrer">Original ↗</a></figcaption>
         </figure>
         <button class="lightbox-arrow lightbox-next" type="button" aria-label="Next photograph">→</button>
       </div>
@@ -308,6 +311,7 @@ def build(base: str, output: Path) -> None:
     if output.exists():
         shutil.rmtree(output)
     shutil.copytree(ROOT / "public", output)
+    photos = render_photo_variants(ROOT / "public" / "photos", output / "assets", photos)
     template = (ROOT / "templates" / "layout.html").read_text(encoding="utf-8")
     site_url = str(profile.get("site_url", "")).strip().rstrip("/")
 

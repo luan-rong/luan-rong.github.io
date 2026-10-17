@@ -1,4 +1,4 @@
-"""Find photographs for the static gallery; no extra packages required.
+"""Find photographs for the static gallery; Pillow is used at build time to make fast, aspect-correct WebP previews.
 
 Drop jpg/jpeg/png/webp/avif files in public/photos/ to publish them.
 Optional labels in data/photography.json are matched by relative filename.
@@ -6,6 +6,7 @@ Optional labels in data/photography.json are matched by relative filename.
 from __future__ import annotations
 
 import re
+from hashlib import file_digest
 from datetime import datetime
 from pathlib import Path
 from urllib.parse import quote
@@ -80,3 +81,64 @@ def collect_photos(photo_dir: Path, settings: dict) -> list[dict]:
         })
     result.sort(key=lambda p: (p['date'], p['file'].casefold()), reverse=True)
     return result
+
+
+def render_photo_variants(photo_dir: Path, output_dir: Path, photos: list[dict]) -> list[dict]:
+    """Generate light WebP thumbnails and large lightbox images from originals.
+
+    Keep the original files intact; detect real dimensions after applying camera
+    EXIF orientation. The two image sizes preserve the same uncropped frame.
+    """
+    try:
+        from PIL import Image, ImageOps
+    except ImportError as exc:
+        raise RuntimeError("Pillow is needed to generate gallery previews: pip install Pillow") from exc
+
+    output_dir = Path(output_dir)
+    photo_dir = Path(photo_dir)
+    thumbs = output_dir / "photo-thumbs"
+    displays = output_dir / "photo-display"
+    thumbs.mkdir(parents=True, exist_ok=True)
+    displays.mkdir(parents=True, exist_ok=True)
+    optimized = []
+
+    for photo in photos:
+        source = photo_dir / photo["file"]
+        with source.open("rb") as stream:
+            digest = file_digest(stream, "sha256").hexdigest()[:20]
+        thumb_path = thumbs / (digest + ".webp")
+        display_path = displays / (digest + ".webp")
+        try:
+            with Image.open(source) as raw:
+                image = ImageOps.exif_transpose(raw)
+                width, height = image.size
+                if not width or not height:
+                    raise ValueError("invalid dimensions")
+                if image.mode not in ("RGB", "RGBA"):
+                    has_alpha = "A" in image.getbands() or "transparency" in image.info
+                    image = image.convert("RGBA" if has_alpha else "RGB")
+                # Resize in stages to avoid holding several huge originals in RAM.
+                image.thumbnail((2200, 2200), Image.Resampling.LANCZOS)
+                image.save(display_path, "WEBP", quality=83, method=4)
+                image.thumbnail((900, 900), Image.Resampling.LANCZOS)
+                image.save(thumb_path, "WEBP", quality=76, method=4)
+        except Exception as exc:
+            raise ValueError(f"Could not optimize photograph {photo['file']}: {exc}") from exc
+
+        if height > width:
+            orientation = "portrait"
+        elif width / height >= 1.7:
+            orientation = "wide"
+        elif abs(width - height) / max(width, height) < 0.08:
+            orientation = "square"
+        else:
+            orientation = "landscape"
+        optimized.append({
+            **photo,
+            "thumb_url": "assets/photo-thumbs/" + thumb_path.name,
+            "display_url": "assets/photo-display/" + display_path.name,
+            "width": width,
+            "height": height,
+            "orientation": orientation,
+        })
+    return optimized

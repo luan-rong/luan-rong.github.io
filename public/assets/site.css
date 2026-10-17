@@ -205,11 +205,8 @@ h1, h2, h3, p { margin-top: 0; }
 .photo-gallery { columns: 4 205px; column-gap: 19px; }
 .photo-card { break-inside: avoid; margin: 0 0 28px; display: block; min-width: 0; }
 .photo-card__link { display: block; color: inherit; cursor: zoom-in; }
-.photo-frame { position: relative; isolation: isolate; display: block; width: 100%; aspect-ratio: 4 / 3; overflow: hidden; border: 1px solid #dfe5db; background: linear-gradient(135deg, #eef1eb, #f8eede); border-radius: 11px; box-shadow: 0 8px 22px rgb(46 72 72 / 5%); }
-.photo-card--portrait .photo-frame { aspect-ratio: 3 / 4; }
-.photo-card--square .photo-frame { aspect-ratio: 1 / 1; }
-.photo-card--wide .photo-frame { aspect-ratio: 16 / 10; }
-.photo-frame img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s cubic-bezier(.22,1,.36,1), filter .4s; }
+.photo-frame { position: relative; isolation: isolate; display: block; width: 100%; aspect-ratio: auto; overflow: hidden; border: 1px solid #dfe5db; background: linear-gradient(135deg, #eef1eb, #f8eede); border-radius: 11px; box-shadow: 0 8px 22px rgb(46 72 72 / 5%); }
+.photo-frame img { width: 100%; height: auto; object-fit: contain; transition: transform .7s cubic-bezier(.22,1,.36,1), filter .4s; }
 .photo-card__link:hover .photo-frame img { transform: scale(1.055); filter: saturate(1.05); }
 .photo-zoom { display: grid; place-items: center; position: absolute; right: 12px; bottom: 12px; width: 31px; height: 31px; border: 1px solid rgb(255 255 255 / 64%); border-radius: 50%; background: rgb(250 251 244 / 90%); color: #42687a; font-size: 16px; opacity: 0; transform: translateY(5px); transition: opacity .2s, transform .2s; }
 .photo-card__link:hover .photo-zoom, .photo-card__link:focus-visible .photo-zoom { opacity: 1; transform: translateY(0); }
@@ -240,6 +237,9 @@ h1, h2, h3, p { margin-top: 0; }
 .lightbox-figure figcaption > span:first-child { display: flex; flex-direction: column; }
 #lightbox-title { font: 500 17px var(--serif); }
 #lightbox-details, #lightbox-position { color: #bdcacb; font: 11px/1.6 var(--serif); }
+
+#lightbox-original { color: #e0e8e9; font: 12px/1.6 var(--serif); text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
+.lightbox-figure figcaption { flex-wrap: wrap; }
 
 /* Footer */
 .site-footer { border-top: 1px solid #ece8df; background: #f8f6ee; }
